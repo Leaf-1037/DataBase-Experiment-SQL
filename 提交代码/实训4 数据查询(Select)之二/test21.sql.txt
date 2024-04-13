@@ -1,0 +1,27 @@
+  -- 2) 投资积极且偏好理财类产品的客户
+--   请用一条SQL语句实现该查询：
+
+select distinct pro_c_id
+from 
+  (
+  select distinct pro_c_id, count(pro_pif_id) as cnt_p
+  from property
+  where pro_type = 1
+  group by pro_c_id
+  having count(pro_pif_id)>=3
+  ) as tabl_1
+  join (
+  select distinct pro_c_id, count(pro_pif_id) as cnt_f
+  from property
+  where pro_type = 3
+  group by pro_c_id
+  ) as tabl_2
+  using(pro_c_id)
+
+where cnt_p > cnt_f;
+/* order by tabl.pro_c_id; */
+
+
+
+
+/*  end  of  your code  */

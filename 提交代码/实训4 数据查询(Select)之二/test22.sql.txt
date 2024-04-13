@@ -1,0 +1,27 @@
+   -- 3) 查询购买了所有畅销理财产品的客户
+--   请用一条SQL语句实现该查询：
+
+select distinct pro_c_id
+from property as T
+where not exists (
+   SELECT *
+   from(
+      SELECT pro_pif_id
+      from property 
+      WHERE pro_type = 1
+      GROUP BY pro_pif_id 
+      HAVING COUNT(pro_c_id) > 2
+   ) as B
+   where not exists (
+      select *
+      from property as C
+      where T.pro_c_id = C.pro_c_id and B.pro_pif_id = C.pro_pif_id and pro_type = 1
+   ) 
+)
+order by pro_c_id;
+
+
+
+
+
+/*  end  of  your code  */
